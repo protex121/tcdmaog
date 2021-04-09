@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title>AOG Tally Counter</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 
     <!-- Bootstrap core CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
@@ -13,9 +13,15 @@
     <!-- The core Firebase JS SDK is always required and must be listed first -->
     <script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-database.js"></script>
+    
+    <style>
+      .disable-dbl-tap-zoom {
+        touch-action: manipulation;
+      }
+    </style>
 
   </head>
-  <body style="background:#000">
+  <body class="disable-dbl-tap-zoom" style="background:#000">
     <div class="container-fluid">
       <div class="row">
         <hr>
