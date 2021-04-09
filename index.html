@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>AOG Tally Counter</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-database.js"></script>
+
+  </head>
+  <body style="background:#000">
+    <div class="container-fluid">
+      <div class="row">
+        <hr>
+        <div class="col-md-12 d-flex justify-content-center">
+          <h1 id="counter" style="font-size:100px;color:#fffb00">0</h1>
+        </div>
+        <div class="col-md-12">
+          <button class="btn btn-success btn-add" style="width:100%;height:400px"><i class="fa fa-plus fa-10x" aria-hidden="true"></i></button>
+        </div>
+        <hr>
+        <div class="col-md-12">
+          <button class="btn btn-danger btn-min" style="width:100%;height:100px"><i class="fa fa-minus fa-5x" aria-hidden="true"></i></button>
+        </div>
+      </div>
+    </div>
+  </body>
+  <!-- Bootstrap core JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+
+  <script type="text/javascript">
+
+    $(document).ready(async function() {
+
+      var firebaseConfig = {
+        apiKey: "AIzaSyDEQPKiKXF2HK5t-RS9ZGrbl92MKBcTPpg",
+        authDomain: "dm-aog-tc.firebaseapp.com",
+        projectId: "dm-aog-tc",
+        storageBucket: "dm-aog-tc.appspot.com",
+        messagingSenderId: "270640772588",
+        appId: "1:270640772588:web:4efad4e517ee4a5b72bcc9"
+      };
+
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      let database = firebase.database().ref('aog');
+      let actual_passcode;
+      await database.get().then(function(snapshot) {
+          if (snapshot.exists()) {
+            const data = snapshot.val();
+            actual_passcode = data.passcode;
+          }
+          else {
+            console.log("No data available");
+          }
+      }).catch(function(error) {
+        console.error(error);
+      });
+
+      let passcode="";
+      do{
+        passcode = prompt("Masukan Passcode","");
+      } while(passcode == "" || passcode!= actual_passcode);
+
+      //get data
+      database.on('value', (snapshot) => {
+        const data = snapshot.val();
+        $('#counter').html(data.tally_counter);
+      });
+
+    });
+
+    $('.btn-add').click(function(){
+      let val = parseInt($('#counter').html()); val++;
+      $('#counter').html(val);
+      firebase.database().ref('aog').update({
+        tally_counter: val
+      });
+
+    });
+
+    $('.btn-min').click(function(){
+      let val = parseInt($('#counter').html()); if(val != 0)val--;
+      $('#counter').html(val);
+      firebase.database().ref('aog').update({
+        tally_counter: val
+      });
+    });
+
+  </script>
+
+
+</html>
