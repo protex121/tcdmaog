@@ -78,7 +78,7 @@
     });
 
     $('.btn-add').click(function(){
-      window.navigator.vibrate(100);
+      //window.navigator.vibrate(100);
       let val = parseInt($('#counter').html()); val++;
       $('#counter').html(val);
       firebase.database().ref('aog').update({
@@ -88,7 +88,7 @@
     });
 
     $('.btn-min').click(function(){
-      window.navigator.vibrate(100);
+      //window.navigator.vibrate(100);
       let val = parseInt($('#counter').html()); if(val != 0)val--;
       $('#counter').html(val);
       firebase.database().ref('aog').update({
